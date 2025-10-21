@@ -1,0 +1,27 @@
+{
+  "$schema": "./schema.json",
+  "id": "frpc-client",
+  "name": "FRP 客户端",
+  "version": "1.0.1",
+  "author": "Naimo Tools",
+  "icon": "./ico.png",
+  "description": "FRP 内网穿透客户端，支持配置文件编辑和客户端管理",
+  "category": "tool",
+  "enabled": true,
+  "main": "./index.html",
+  "preload": "./preload.js",
+  "feature": [
+    {
+      "path": "frpc",
+      "name": "内网穿透",
+      "icon": "./ico.png",
+      "description": "管理 FRP 客户端连接和配置",
+      "type": "text",
+      "anonymousSearchFields": [
+        "frpc",
+        "frp",
+        "内网穿透"
+      ]
+    }
+  ]
+}
