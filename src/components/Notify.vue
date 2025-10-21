@@ -1,13 +1,13 @@
 <template>
   <div
-    class="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-3 pointer-events-none"
+    class="fixed bottom-4 right-4 z-50 flex flex-col-reverse gap-2 pointer-events-none"
   >
     <TransitionGroup name="notify">
       <div
         v-for="notification in notifications"
         :key="notification.id"
         :class="[
-          'pointer-events-auto min-w-80 max-w-md rounded-lg shadow-lg border p-4 flex items-start gap-3 backdrop-blur-sm',
+          'pointer-events-auto min-w-64 max-w-sm rounded-lg shadow-lg border p-3 flex items-start gap-2 backdrop-blur-sm',
           typeClasses[notification.type],
         ]"
       >
@@ -15,7 +15,7 @@
         <div class="flex-shrink-0">
           <svg
             v-if="notification.type === 'success'"
-            class="w-5 h-5"
+            class="w-4 h-4"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -27,7 +27,7 @@
           </svg>
           <svg
             v-else-if="notification.type === 'error'"
-            class="w-5 h-5"
+            class="w-4 h-4"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -39,7 +39,7 @@
           </svg>
           <svg
             v-else-if="notification.type === 'warning'"
-            class="w-5 h-5"
+            class="w-4 h-4"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -49,7 +49,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <svg v-else class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path
               fill-rule="evenodd"
               d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
@@ -59,7 +59,7 @@
         </div>
 
         <!-- 消息内容 -->
-        <div class="flex-1 text-sm font-medium">
+        <div class="flex-1 text-xs font-medium">
           {{ notification.message }}
         </div>
 
@@ -68,7 +68,7 @@
           @click="remove(notification.id)"
           class="flex-shrink-0 opacity-70 hover:opacity-100 transition-opacity"
         >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
             <path
               fill-rule="evenodd"
               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"

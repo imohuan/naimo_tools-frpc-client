@@ -4,17 +4,17 @@
   >
     <!-- 使用 teleport 将按钮传送到 tab 栏右侧 -->
     <Teleport v-if="isActive" to="#tab-actions">
-      <div class="flex gap-2">
+      <div class="flex gap-1.5">
         <button
           @click="toggleWrap"
-          class="px-4 py-2 rounded-lg text-sm font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
           :title="wrapEnabled ? '禁用换行' : '启用换行'"
         >
           {{ wrapEnabled ? "禁用换行" : "启用换行" }}
         </button>
         <button
           @click="clearLogs"
-          class="px-4 py-2 rounded-lg text-sm font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
         >
           清空日志
         </button>
@@ -23,16 +23,16 @@
 
     <div
       ref="logContainer"
-      class="flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed bg-gray-50 select-text"
+      class="flex-1 overflow-y-auto p-3 font-mono text-xs leading-relaxed bg-gray-50 select-text"
       :class="{
         'whitespace-pre-wrap': wrapEnabled,
         'whitespace-pre': !wrapEnabled,
       }"
     >
-      <div v-for="(log, index) in logs" :key="index" class="py-0.5">
+      <div v-for="(log, index) in logs" :key="index" class="py-0.25">
         <span class="select-text" v-html="log.html"></span>
       </div>
-      <div v-if="logs.length === 0" class="text-gray-400 text-center mt-8">
+      <div v-if="logs.length === 0" class="text-gray-400 text-center mt-4">
         等待日志输出...
       </div>
     </div>

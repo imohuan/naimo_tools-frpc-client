@@ -4,26 +4,26 @@
     <Teleport v-if="isActive" to="#tab-actions">
       <button
         @click="loadConfigFromFile"
-        class="px-4 py-2 rounded-lg text-sm font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
+        class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
       >
         重新加载
       </button>
       <button
         @click="resetToDefault"
-        class="px-4 py-2 rounded-lg text-sm font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
+        class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 transition-all"
       >
         恢复默认
       </button>
       <button
         @click="parseAndAddComments"
-        class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white transition-all shadow-lg shadow-indigo-500/30"
+        class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white transition-all shadow-md shadow-indigo-500/30"
       >
         智能注释
       </button>
       <button
         @click="saveConfigToFile"
         :disabled="loading"
-        class="px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg shadow-blue-500/30"
+        class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all disabled:opacity-50 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-md shadow-blue-500/30"
       >
         保存配置
       </button>
@@ -31,11 +31,11 @@
 
     <!-- 编辑器 -->
     <div
-      class="h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-lg"
+      class="h-full bg-white rounded-lg border border-gray-200 overflow-hidden shadow-lg"
     >
       <textarea
         v-model="config"
-        class="w-full h-full bg-transparent text-gray-900 font-mono text-sm p-6 focus:outline-none resize-none leading-relaxed"
+        class="w-full h-full bg-transparent text-gray-900 font-mono text-xs p-4 focus:outline-none resize-none leading-relaxed"
         placeholder="请输入 frpc 配置..."
         spellcheck="false"
       ></textarea>

@@ -3,13 +3,13 @@
     class="h-screen w-screen flex flex-col bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 text-gray-900 overflow-hidden"
   >
     <!-- Tab 切换栏 -->
-    <div class="flex-shrink-0 px-6 pt-4">
+    <div class="flex-shrink-0 px-4 pt-3">
       <div class="flex items-center justify-between border-b border-gray-200">
-        <div class="flex space-x-2" style="height: 50px">
+        <div class="flex space-x-1.5" style="height: 42px">
           <button
             @click="activeTab = 'service'"
             :class="[
-              'px-6 py-3 font-medium transition-all relative',
+              'px-5 py-2 font-medium transition-all relative text-sm',
               activeTab === 'service'
                 ? 'text-blue-600'
                 : 'text-gray-500 hover:text-gray-700',
@@ -24,7 +24,7 @@
           <button
             @click="activeTab = 'config'"
             :class="[
-              'px-6 py-3 font-medium transition-all relative',
+              'px-5 py-2 font-medium transition-all relative text-sm',
               activeTab === 'config'
                 ? 'text-purple-600'
                 : 'text-gray-500 hover:text-gray-700',
@@ -40,7 +40,7 @@
             v-if="isRunning"
             @click="activeTab = 'terminal'"
             :class="[
-              'px-6 py-3 font-medium transition-all relative',
+              'px-5 py-2 font-medium transition-all relative text-sm',
               activeTab === 'terminal'
                 ? 'text-green-600'
                 : 'text-gray-500 hover:text-gray-700',
@@ -60,28 +60,28 @@
         </div>
 
         <!-- teleport 目标容器 -->
-        <div id="tab-actions" class="flex space-x-2 pb-3"></div>
+        <div id="tab-actions" class="flex space-x-1.5 pb-2"></div>
       </div>
     </div>
 
     <!-- Tab 内容区 -->
-    <div class="flex-1 min-h-0 px-6 py-4 relative">
+    <div class="flex-1 min-h-0 px-4 py-3 relative">
       <div
         v-show="activeTab === 'service'"
-        class="absolute inset-0 left-6 right-6 top-4 bottom-4"
+        class="absolute inset-0 left-4 right-4 top-3 bottom-3"
       >
         <ServiceTab @status-change="handleStatusChange" />
       </div>
       <div
         v-show="activeTab === 'config'"
-        class="absolute inset-0 left-6 right-6 top-4 bottom-4"
+        class="absolute inset-0 left-4 right-4 top-3 bottom-3"
       >
         <ConfigTab :is-active="activeTab === 'config'" />
       </div>
       <div
         v-if="isRunning"
         v-show="activeTab === 'terminal'"
-        class="absolute inset-0 left-6 right-6 top-4 bottom-4"
+        class="absolute inset-0 left-4 right-4 top-3 bottom-3"
       >
         <TerminalLog :is-active="activeTab === 'terminal'" />
       </div>
