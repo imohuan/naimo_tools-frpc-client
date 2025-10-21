@@ -4,7 +4,7 @@
   "name": "FRP 客户端",
   "version": "1.0.0",
   "author": "Naimo Tools",
-  "icon": "🌐",
+  "icon": "./ico.png",
   "description": "FRP 内网穿透客户端，支持配置文件编辑和客户端管理",
   "category": "tool",
   "enabled": true,
@@ -13,8 +13,8 @@
   "feature": [
     {
       "path": "frpc",
-      "name": "FRP 客户端",
-      "icon": "🌐",
+      "name": "内网穿透",
+      "icon": "./ico.png",
       "description": "管理 FRP 客户端连接和配置",
       "type": "text",
       "anonymousSearchFields": [

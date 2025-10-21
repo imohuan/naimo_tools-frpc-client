@@ -206,6 +206,33 @@
           </button>
         </div>
 
+        <!-- 安全提示 -->
+        <div
+          v-if="!isInstalled"
+          class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200 flex items-start space-x-3"
+        >
+          <svg
+            class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            ></path>
+          </svg>
+          <div class="flex-1">
+            <h4 class="text-sm font-semibold text-amber-900 mb-1">重要提示</h4>
+            <p class="text-sm text-amber-800">
+              下载 frpc 客户端时，可能会被杀毒软件或 Windows Defender
+              误报拦截。请在下载前临时关闭相关安全软件，或将下载的文件添加到白名单中。
+            </p>
+          </div>
+        </div>
+
         <!-- 进度条 -->
         <div
           v-if="downloadProgress"
@@ -351,7 +378,7 @@
                     <div
                       class="w-2 h-2 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50"
                     ></div>
-                    <span class="text-white/90 text-sm">年租仅需 ¥9.9</span>
+                    <span class="text-white/90 text-sm">月租仅需 ¥5</span>
                   </div>
                   <div class="flex items-center space-x-2">
                     <div
@@ -422,7 +449,7 @@ watch(
 
 async function checkInstallation() {
   try {
-    isInstalled.value = window.frpcApi.checkFrpcInstalled();
+    isInstalled.value = await window.frpcApi.checkFrpcInstalled();
   } catch (error) {
     console.error("检查安装状态失败:", error);
   }
@@ -432,6 +459,8 @@ async function refreshStatus() {
   loading.value = true;
   try {
     status.value = window.frpcApi.getFrpcStatus();
+    // 刷新时同步检查安装状态
+    await checkInstallation();
   } catch (error: any) {
     console.error("获取状态失败:", error);
   } finally {
@@ -476,9 +505,13 @@ async function handleStart() {
       success("frpc 启动成功！");
     } else {
       error(`启动失败: ${result.message}`);
+      // 启动失败时重新检查安装状态
+      await checkInstallation();
     }
   } catch (error: any) {
     error(`启动失败: ${error.message}`);
+    // 捕获错误后重新检查安装状态，如果文件被删除则恢复下载按钮
+    await checkInstallation();
   } finally {
     loading.value = false;
   }

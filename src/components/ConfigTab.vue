@@ -262,19 +262,19 @@ function parseAndAddComments() {
 }
 
 // 从文件加载配置
-function loadConfigFromFile() {
+async function loadConfigFromFile() {
   try {
-    config.value = window.frpcApi.loadConfig();
+    config.value = await window.frpcApi.loadConfig();
   } catch (error: any) {
     showError(`加载配置失败: ${error.message}`);
   }
 }
 
 // 保存配置到文件
-function saveConfigToFile() {
+async function saveConfigToFile() {
   loading.value = true;
   try {
-    window.frpcApi.saveConfig(config.value);
+    await window.frpcApi.saveConfig(config.value);
     success("配置保存成功！");
   } catch (error: any) {
     showError(`保存配置失败: ${error.message}`);

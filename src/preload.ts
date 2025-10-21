@@ -28,10 +28,11 @@ interface DownloadProgress {
 let frpcProcess: ChildProcess | null = null;
 let logCallbacks: Array<(log: string, type: 'stdout' | 'stderr') => void> = [];
 
-// 获取数据路径（延迟初始化，避免启动时出错）
-function getDataPaths() {
+// 获取数据路径
+async function getDataPaths() {
   try {
-    const userDataPath = path.join(os.homedir(), '.naimo', 'frpc-client');
+    const userDataPath = await naimo.system.getPath('userData');
+    // const userDataPath = path.join(os.homedir(), '.naimo');
     const frpcDir = path.join(userDataPath, 'frpc');
     const frpcConfigPath = path.join(frpcDir, 'frpc.toml');
     return { userDataPath, frpcDir, frpcConfigPath };
@@ -321,10 +322,10 @@ async function extractArchive(archivePath: string, destDir: string): Promise<voi
 /**
  * 检查 frpc 是否已安装
  */
-function checkFrpcInstalled(): boolean {
+async function checkFrpcInstalled(): Promise<boolean> {
   const { platform } = getPlatformInfo();
   const frpcExe = platform === 'windows' ? 'frpc.exe' : 'frpc';
-  const { frpcDir } = getDataPaths();
+  const { frpcDir } = await getDataPaths();
 
   // 检查目录是否存在
   if (!fs.existsSync(frpcDir)) {
@@ -349,10 +350,10 @@ function checkFrpcInstalled(): boolean {
 /**
  * 获取 frpc 可执行文件路径
  */
-function getFrpcPath(): string | null {
+async function getFrpcPath(): Promise<string | null> {
   const { platform } = getPlatformInfo();
   const frpcExe = platform === 'windows' ? 'frpc.exe' : 'frpc';
-  const { frpcDir } = getDataPaths();
+  const { frpcDir } = await getDataPaths();
 
   // 递归查找 frpc 可执行文件
   function findFrpc(dir: string): string | null {
@@ -379,13 +380,14 @@ async function downloadFrpc(
   onProgress?: (progress: DownloadProgress) => void
 ): Promise<void> {
   try {
-    const { frpcDir } = getDataPaths();
+    const { frpcDir } = await getDataPaths();
     ensureDir(frpcDir);
 
     onProgress?.({ type: 'downloading', message: '正在获取最新版本信息...', progress: 0 });
 
     let version = await getLatestVersion();
     if (!version) version = '0.64.0';
+    version = '0.64.0';
 
     const { platform, arch, extension } = getPlatformInfo();
     const fileName = `frp_${version}_${platform}_${arch}${extension}`;
@@ -413,7 +415,7 @@ async function downloadFrpc(
 
     // 设置 frpc 可执行权限（Linux/Mac）
     if (platform !== 'windows') {
-      const frpcPath = getFrpcPath();
+      const frpcPath = await getFrpcPath();
       if (frpcPath) {
         try {
           fs.chmodSync(frpcPath, '755');
@@ -490,19 +492,19 @@ async function startFrpc(): Promise<FrpcStatus> {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     // 检查是否已安装
-    if (!checkFrpcInstalled()) {
+    if (!(await checkFrpcInstalled())) {
       throw new Error('frpc 未安装，请先下载安装');
     }
 
-    const { frpcConfigPath } = getDataPaths();
+    const { frpcConfigPath } = await getDataPaths();
 
     // 检查配置文件是否存在
     if (!fs.existsSync(frpcConfigPath)) {
       // 创建默认配置
-      saveConfig(getDefaultConfig());
+      await saveConfig(getDefaultConfig());
     }
 
-    const frpcPath = getFrpcPath();
+    const frpcPath = await getFrpcPath();
     if (!frpcPath) {
       throw new Error('找不到 frpc 可执行文件');
     }
@@ -663,8 +665,8 @@ remotePort = 6000
 /**
  * 保存配置文件
  */
-function saveConfig(content: string): void {
-  const { frpcDir, frpcConfigPath } = getDataPaths();
+async function saveConfig(content: string): Promise<void> {
+  const { frpcDir, frpcConfigPath } = await getDataPaths();
   ensureDir(frpcDir);
   fs.writeFileSync(frpcConfigPath, content, 'utf-8');
 }
@@ -672,12 +674,12 @@ function saveConfig(content: string): void {
 /**
  * 读取配置文件
  */
-function loadConfig(): string {
+async function loadConfig(): Promise<string> {
   try {
-    const { frpcConfigPath } = getDataPaths();
+    const { frpcConfigPath } = await getDataPaths();
     if (!fs.existsSync(frpcConfigPath)) {
       const defaultConfig = getDefaultConfig();
-      saveConfig(defaultConfig);
+      await saveConfig(defaultConfig);
       return defaultConfig;
     }
     return fs.readFileSync(frpcConfigPath, 'utf-8');
