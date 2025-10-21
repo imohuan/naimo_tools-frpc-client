@@ -1,0 +1,39 @@
+{
+  "name": "frpc-client",
+  "version": "1.0.0",
+  "description": "FRP 内网穿透客户端插件",
+  "type": "module",
+  "scripts": {
+    "init": "pnpm i && pnpm run add-electron-types && pnpm run dev",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "add-electron-types": "$env:ELECTRON_SKIP_DOWNLOAD=1; pnpm install electron --save-dev",
+    "deploy": "node scripts/deploy-to-build.js"
+  },
+  "keywords": [
+    "naimo",
+    "plugin",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^22.0.0",
+    "@types/tar": "^6.1.13",
+    "electron": "^38.2.2",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "adm-zip": "^0.5.16",
+    "ansi-to-html": "^0.7.2",
+    "tar": "^7.5.1",
+    "vue": "^3.5.22"
+  }
+}
